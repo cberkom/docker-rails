@@ -1,0 +1,17 @@
+gems:
+  image: busybox
+  volumes:
+    - /usr/local/bundle
+db:
+  image: postgres
+web:
+  build: .
+  command: bundle exec rails s -p 80 -b '0.0.0.0'
+  volumes:
+    - .:/www
+  volumes_from:
+    - gems
+  ports:
+    - "80:80"
+  links:
+    - db
